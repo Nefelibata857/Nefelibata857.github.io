@@ -82,9 +82,6 @@ for c in CH:
       </div>
     </section>''')
 
-ix = ''.join(
-    f'<a href="#{c["id"]}"><b>{c["no"]}</b>{c["name"]}</a>' for c in CH
-)
 nav = ''.join(f'<a href="#{c["id"]}" data-ch="{c["id"]}">{c["no"]} {c["name"]}</a>' for c in CH)
 nav += '<a href="#contact">联系</a>'
 
@@ -121,9 +118,9 @@ html = f'''<!DOCTYPE html>
         <div class="kicker"><i></i>Architecture · Urban Design</div>
         <h1><em>Selected Works</em>王勇超</h1>
         <p class="lede">城市设计背景，关注居住、社区与城市更新中的公共空间如何被重新组织。这里收录四个项目——从西北小镇的韧性概念，到西安老城的街区更新。</p>
-      </div>
-      <div class="hero-bot">
         <p class="facts">西安建筑科技大学 · 城市设计 · GPA 3.52（前 30%）<span>2027 届 · 四个项目 · {TOTAL} 页图版</span></p>
+      </div>
+      <aside class="hero-side">
         <dl class="cv">
           <div>
             <dt>实习</dt>
@@ -133,14 +130,11 @@ html = f'''<!DOCTYPE html>
             <dt>荣誉</dt>
             <dd>UIA 国际学生竞赛「韧性催化剂」<br>全球第 95 名 · 前 20%<br><span class="cv-x">最佳课程设计 · 最美笔记二等奖</span></dd>
           </div>
-          <div>
-            <dt>工具</dt>
-            <dd>CAD · 天正 · SketchUp · Rhino<br>D5 · V-Ray · Enscape · PS · AI<br><span class="cv-x">InDesign · ArcGIS · 剪映 · Premiere</span></dd>
-          </div>
         </dl>
+      </aside>
+      <div class="hero-bot">
         <div class="scroll-hint"><i></i>SCROLL</div>
       </div>
-      <nav class="hero-ix" aria-label="项目索引">{ix}</nav>
     </div>
   </section>
 
