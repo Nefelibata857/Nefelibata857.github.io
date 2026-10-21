@@ -1,0 +1,13 @@
+{
+  "name": "wangyongchao-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "王勇超建筑/城市设计作品集网站（静态站点 + 零依赖 Node 服务）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
