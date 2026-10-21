@@ -1,0 +1,189 @@
+[
+ {
+  "page": 0,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p00.webp",
+  "thumb": "assets/thumbs/t00.webp",
+  "avg": "#DFDED9"
+ },
+ {
+  "page": 1,
+  "size": [
+   2600,
+   1840
+  ],
+  "ratio": 1.413,
+  "main": "assets/pages/p01.webp",
+  "thumb": "assets/thumbs/t01.webp",
+  "avg": "#A99F8C"
+ },
+ {
+  "page": 2,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p02.webp",
+  "thumb": "assets/thumbs/t02.webp",
+  "avg": "#CCBB9F"
+ },
+ {
+  "page": 3,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p03.webp",
+  "thumb": "assets/thumbs/t03.webp",
+  "avg": "#888379"
+ },
+ {
+  "page": 4,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p04.webp",
+  "thumb": "assets/thumbs/t04.webp",
+  "avg": "#EBE8E7"
+ },
+ {
+  "page": 5,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p05.webp",
+  "thumb": "assets/thumbs/t05.webp",
+  "avg": "#DFDCDC"
+ },
+ {
+  "page": 6,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p06.webp",
+  "thumb": "assets/thumbs/t06.webp",
+  "avg": "#D5D1D0"
+ },
+ {
+  "page": 7,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p07.webp",
+  "thumb": "assets/thumbs/t07.webp",
+  "avg": "#DEE0DA"
+ },
+ {
+  "page": 8,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p08.webp",
+  "thumb": "assets/thumbs/t08.webp",
+  "avg": "#DBDAD5"
+ },
+ {
+  "page": 9,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p09.webp",
+  "thumb": "assets/thumbs/t09.webp",
+  "avg": "#DDE2DB"
+ },
+ {
+  "page": 10,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p10.webp",
+  "thumb": "assets/thumbs/t10.webp",
+  "avg": "#D3D3CD"
+ },
+ {
+  "page": 11,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p11.webp",
+  "thumb": "assets/thumbs/t11.webp",
+  "avg": "#D9DDD7"
+ },
+ {
+  "page": 12,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p12.webp",
+  "thumb": "assets/thumbs/t12.webp",
+  "avg": "#CCCAC5"
+ },
+ {
+  "page": 13,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p13.webp",
+  "thumb": "assets/thumbs/t13.webp",
+  "avg": "#E7E7E5"
+ },
+ {
+  "page": 14,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p14.webp",
+  "thumb": "assets/thumbs/t14.webp",
+  "avg": "#DCDCD3"
+ },
+ {
+  "page": 15,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p15.webp",
+  "thumb": "assets/thumbs/t15.webp",
+  "avg": "#D3D2CD"
+ },
+ {
+  "page": 16,
+  "size": [
+   2600,
+   1839
+  ],
+  "ratio": 1.4138,
+  "main": "assets/pages/p16.webp",
+  "thumb": "assets/thumbs/t16.webp",
+  "avg": "#DEDFDB"
+ }
+]
