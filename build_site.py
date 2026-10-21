@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """生成 index.html（读 pages.json，避免手写 17 页出错）"""
 import json, os, sys, shutil
+from urllib.parse import quote
 sys.stdout.reconfigure(encoding='utf-8')
 ROOT = os.path.dirname(os.path.abspath(__file__))
 pages = json.load(open(os.path.join(ROOT, 'pages.json'), encoding='utf-8'))
@@ -27,6 +28,9 @@ LABELS = {
     12: '场域之间', 13: '总平面与人群分析', 14: '立面 · 剖面 · 鸟瞰', 15: '场地与构件分析', 16: '植被分析',
 }
 TOTAL = len(pages)
+
+PDF_FILE = '王勇超-西建大-城市设计-作品集.pdf'      # 下载后的文件名
+PDF_HREF = 'assets/' + quote(PDF_FILE)
 
 def esc(s):
     return (s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;'))
@@ -78,6 +82,9 @@ for c in CH:
       </div>
     </section>''')
 
+ix = ''.join(
+    f'<a href="#{c["id"]}"><b>{c["no"]}</b>{c["name"]}</a>' for c in CH
+)
 nav = ''.join(f'<a href="#{c["id"]}" data-ch="{c["id"]}">{c["no"]} {c["name"]}</a>' for c in CH)
 nav += '<a href="#contact">联系</a>'
 
@@ -88,7 +95,7 @@ html = f'''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>王勇超 · 作品集 2027 | 城市设计 · 建筑</title>
 <meta name="description" content="王勇超的建筑与城市设计作品集：概念设计 The 3E Stitcher、单体设计廊院阅垣、社区设计板筑之间、片区设计场域之间。">
-<meta name="theme-color" content="#F6F3ED">
+<meta name="theme-color" content="#121110">
 <meta property="og:title" content="王勇超 · 作品集 2027">
 <meta property="og:description" content="城市设计 · 建筑 —— 四个项目，十七页图版。">
 <meta property="og:type" content="website">
@@ -103,30 +110,19 @@ html = f'''<!DOCTYPE html>
   <a class="brand" href="#top"><b>王勇超</b><span>Portfolio 2027</span></a>
   <nav class="nav">
     {nav}
-    <a class="dl" href="assets/portfolio.pdf" download>下载 PDF</a>
+    <a class="dl" href="{PDF_HREF}" download="{PDF_FILE}">下载 PDF</a>
   </nav>
 </header>
 
 <main id="top">
   <section class="hero">
     <div class="wrap">
-     <div class="hero-grid">
-      <div class="hero-copy">
       <div class="kicker"><i></i>Architecture · Urban Design</div>
       <h1><em>Selected Works</em>王勇超</h1>
       <p class="lede">城市设计背景，关注居住、社区与城市更新中的公共空间如何被重新组织。这里收录四个项目——从西北小镇的韧性概念，到西安老城的街区更新。</p>
-      <dl class="meta">
-        <div><dt>学校</dt><dd>西安建筑科技大学</dd></div>
-        <div><dt>专业</dt><dd>城市设计</dd></div>
-        <div><dt>届别</dt><dd>2027 届</dd></div>
-        <div><dt>收录</dt><dd>4 个项目 · {TOTAL} 页</dd></div>
-      </dl>
+      <p class="facts">西安建筑科技大学 · 城市设计 · 2027 届<span>四个项目 · {TOTAL} 页图版</span></p>
       <div class="scroll-hint"><i></i>SCROLL</div>
-      </div>
-      <div class="hero-art">
-        <img src="assets/pages/p08.webp" alt="社区设计 板筑之间 · 鸟瞰" loading="eager" decoding="async">
-      </div>
-     </div>
+      <nav class="hero-ix" aria-label="项目索引">{ix}</nav>
     </div>
   </section>
 
@@ -160,7 +156,11 @@ html = f'''<!DOCTYPE html>
       </div>
       <div class="c-item">
         <span class="c-lb">Portfolio</span>
-        <a href="assets/portfolio.pdf" download>下载完整 PDF · {TOTAL} 页</a>
+        <a href="{PDF_HREF}" download="{PDF_FILE}">下载完整 PDF · {TOTAL} 页</a>
+      </div>
+      <div class="c-item c-qr">
+        <span class="c-lb">Scan</span>
+        <img src="assets/qr.png" alt="扫码在手机打开本站" width="112" height="112" loading="lazy" decoding="async">
       </div>
     </div>
     <div class="row">
@@ -182,7 +182,22 @@ print('index.html', round(os.path.getsize(os.path.join(ROOT, 'index.html')) / 10
 src = next((x for x in [r'E:\Desktop\简历\作品集2\王勇超作品集.pdf',
                         r'E:\Desktop\简历\作品集2\作品集_配色统一_网申版.pdf']
              if os.path.exists(x)), '')
-dst = os.path.join(ROOT, 'assets', 'portfolio.pdf')
+dst = os.path.join(ROOT, 'assets', PDF_FILE)
+old = os.path.join(ROOT, 'assets', 'portfolio.pdf')
+if os.path.exists(old):
+    os.remove(old)
 if src and os.path.exists(src):
     shutil.copy2(src, dst)
+    try:                                     # 写元数据：HR 在阅读器里看到的标题
+        import pymupdf
+        d = pymupdf.open(dst)
+        d.set_metadata(dict(d.metadata,
+            title='王勇超 - 西安建筑科技大学 城市设计 作品集 2027',
+            author='王勇超',
+            subject='建筑 / 城市设计作品集 · 四个项目 十七页图版',
+            keywords='城市设计,建筑设计,作品集,2027届,西安建筑科技大学'))
+        d.saveIncr()
+        d.close()
+    except Exception as e:
+        print('meta skip:', e)
     print('pdf', round(os.path.getsize(dst) / 1048576, 1), 'MB')
