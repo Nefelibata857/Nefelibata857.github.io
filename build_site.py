@@ -95,7 +95,7 @@ html = f'''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>王勇超 · 作品集 2027 | 城市设计 · 建筑</title>
 <meta name="description" content="王勇超的建筑与城市设计作品集：概念设计 The 3E Stitcher、单体设计廊院阅垣、社区设计板筑之间、片区设计场域之间。">
-<meta name="theme-color" content="#121110">
+<meta name="theme-color" content="#F6F3ED">
 <meta property="og:title" content="王勇超 · 作品集 2027">
 <meta property="og:description" content="城市设计 · 建筑 —— 四个项目，十七页图版。">
 <meta property="og:type" content="website">

@@ -13,11 +13,12 @@ URL = 'https://nefelibata857.github.io'
 OUT_DIR = r'E:\Desktop\简历\作品集2'
 TMP = r'D:\WorkBuddy\portfolio-site\_qr_tmp.png'
 
-INK = (241, 236, 227)
-GOLD = (200, 162, 104)
-GOLD_SOFT = (222, 192, 140)
-MUTED = (132, 125, 113)
-BG = (18, 17, 16)
+INK = (26, 26, 24)
+GOLD = (165, 129, 79)
+GOLD_SOFT = (146, 110, 62)
+MUTED = (138, 134, 126)
+LINE = (222, 215, 202)
+BG = (246, 243, 237)
 
 MSYH = r'C:\Windows\Fonts\msyh.ttc'
 MSYH_BD = r'C:\Windows\Fonts\msyhbd.ttc'
@@ -59,7 +60,7 @@ def main():
     qr.save(svg, scale=1, border=4, dark='#000000', light='#FFFFFF', xmldecl=True, svgns=True)
     print('svg ->', svg, os.path.getsize(svg), 'B')
 
-    # ---- 3) 深色名片卡 ----
+    # ---- 3) 米白名片卡 ----
     W, H = 1980, 1180
     im = Image.new('RGB', (W, H), BG)
     d = ImageDraw.Draw(im)
@@ -70,15 +71,15 @@ def main():
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
     cx, cy = W * 0.22, H * 0.34
     r = np.sqrt(((xx - cx) / (W * 0.72)) ** 2 + ((yy - cy) / (H * 0.82)) ** 2)
-    a = np.clip(1.0 - r, 0.0, 1.0) ** 1.9 * 26.0
+    a = np.clip(1.0 - r, 0.0, 1.0) ** 1.9 * 13.0
     mask = Image.fromarray(a.astype(np.uint8), 'L').filter(ImageFilter.GaussianBlur(90))
     warm = Image.new('RGB', (W, H), (200, 162, 104))
-    im = Image.composite(warm, im, mask.point(lambda v: min(255, int(v * 3.2))))
+    im = Image.composite(warm, im, mask.point(lambda v: min(255, int(v * 2.4))))
     d = ImageDraw.Draw(im)
 
     # 外框细线
-    d.rectangle([44, 44, W - 45, H - 45], outline=(60, 55, 48), width=2)
-    d.rectangle([64, 64, W - 65, H - 65], outline=(40, 37, 32), width=1)
+    d.rectangle([44, 44, W - 45, H - 45], outline=LINE, width=2)
+    d.rectangle([64, 64, W - 65, H - 65], outline=(232, 226, 214), width=1)
 
     # 左侧文字
     x0 = 132
@@ -89,7 +90,7 @@ def main():
     d.text((x0 - 4, 226), '王勇超', font=f_name, fill=INK)
 
     f_sub = font(MSYH, 40)
-    d.text((x0, 396), '城市设计 · 建筑', font=f_sub, fill=(185, 179, 167))
+    d.text((x0, 396), '城市设计 · 建筑', font=f_sub, fill=(74, 72, 68))
 
     # 金色短线
     d.line([x0, 490, x0 + 96, 490], fill=GOLD, width=3)
@@ -102,7 +103,7 @@ def main():
     f_url = font(GEORGIA, 34)
     d.text((x0, 690), 'nefelibata857.github.io', font=f_url, fill=GOLD_SOFT)
     f_tip = font(MSYH, 24)
-    tracked(d, (x0, 748), 'SCAN TO OPEN', f_tip, (120, 113, 101), tracking=6)
+    tracked(d, (x0, 748), 'SCAN TO OPEN', f_tip, MUTED, tracking=6)
 
     # 右下角小字
     f_foot = font(MSYH, 24)
@@ -110,7 +111,7 @@ def main():
     d.text((x0, H - 96), '188 2916 9388', font=f_foot, fill=MUTED)
 
     # 右侧二维码白块
-    qr.save(TMP, scale=14, border=1, dark='#121110', light='#FFFFFF')
+    qr.save(TMP, scale=14, border=1, dark='#1A1A18', light='#FFFFFF')
     q = Image.open(TMP).convert('RGB')
     side = 620
     q = q.resize((side, side), Image.NEAREST)
@@ -118,6 +119,7 @@ def main():
     bx = (W - q.width) - 150 - pad
     by = (H - side) // 2 - pad
     d.rectangle([bx, by, bx + side + 2 * pad, by + side + 2 * pad], fill=(255, 255, 255))
+    d.rectangle([bx, by, bx + side + 2 * pad, by + side + 2 * pad], outline=LINE, width=2)
     im.paste(q, (bx + pad, by + pad))
 
     card = os.path.join(OUT_DIR, '作品集二维码_名片.png')
@@ -127,7 +129,7 @@ def main():
 
     # ---- 4) 站点用的小图（页脚/分享卡） ----
     site_qr = r'D:\WorkBuddy\portfolio-site\assets\qr.png'
-    qr.save(site_qr, scale=12, border=2, dark='#121110', light='#FFFFFF')
+    qr.save(site_qr, scale=12, border=2, dark='#1A1A18', light='#FFFFFF')
     print('site qr ->', site_qr, Image.open(site_qr).size)
 
 
