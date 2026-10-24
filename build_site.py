@@ -121,8 +121,15 @@ html = f'''<!DOCTYPE html>
       <div class="hero-top">
         <div class="kicker"><i></i>Architecture · Urban Design</div>
         <h1><em>Selected Works</em>王勇超</h1>
+        <dl class="info">
+          <div><dt>性别</dt><dd>男</dd></div>
+          <div><dt>年龄</dt><dd>22 岁<span class="info-x">2004.08</span></dd></div>
+          <div><dt>院校</dt><dd>西安建筑科技大学 · 城市设计</dd></div>
+          <div><dt>人格</dt><dd>INTJ</dd></div>
+          <div><dt>届别</dt><dd>2027 届</dd></div>
+        </dl>
         <p class="lede">城市设计背景，关注居住、社区与城市更新中的公共空间如何被重新组织。这里收录五个项目——从西北小镇的韧性概念、西安老城的街区更新，到一处临街咖啡店三个月的驻场施工。</p>
-        <p class="facts">西安建筑科技大学 · 城市设计 · GPA 3.52（前 30%）<span>2027 届 · 五个项目 · {TOTAL} 页图版</span></p>
+        <p class="facts">GPA 3.52（专业前 30%）<span>五个项目 · {TOTAL} 页图版</span></p>
       </div>
       <aside class="hero-side">
         <dl class="cv">
