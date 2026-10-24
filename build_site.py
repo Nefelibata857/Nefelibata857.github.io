@@ -122,7 +122,7 @@ html = f'''<!DOCTYPE html>
         <div class="kicker"><i></i>Architecture · Urban Design</div>
         <h1><em>Selected Works</em>王勇超</h1>
         <p class="lede">城市设计背景，关注居住、社区与城市更新中的公共空间如何被重新组织。这里收录五个项目——从西北小镇的韧性概念、西安老城的街区更新，到一处临街咖啡店三个月的驻场施工。</p>
-        <p class="facts">西安建筑科技大学 · 城市设计 · GPA 3.52（前 30%）<span>2027 届 · 四个项目 · {TOTAL} 页图版</span></p>
+        <p class="facts">西安建筑科技大学 · 城市设计 · GPA 3.52（前 30%）<span>2027 届 · 五个项目 · {TOTAL} 页图版</span></p>
       </div>
       <aside class="hero-side">
         <dl class="cv">
@@ -202,7 +202,12 @@ dst = os.path.join(ROOT, 'assets', PDF_FILE)
 old = os.path.join(ROOT, 'assets', 'portfolio.pdf')
 if os.path.exists(old):
     os.remove(old)
-if src and os.path.exists(src):
+# 只在源文件比目标新时才复制：saveIncr 会改到目标大小，用大小比对会死循环
+same = (src and os.path.exists(src) and os.path.exists(dst)
+        and os.path.getmtime(dst) >= os.path.getmtime(src))
+if same:
+    print('pdf 已是最新，跳过复制')
+if src and os.path.exists(src) and not same:
     shutil.copy2(src, dst)
     try:                                     # 写元数据：HR 在阅读器里看到的标题
         import pymupdf
@@ -216,4 +221,5 @@ if src and os.path.exists(src):
         d.close()
     except Exception as e:
         print('meta skip:', e)
+if os.path.exists(dst):
     print('pdf', round(os.path.getsize(dst) / 1048576, 1), 'MB')
