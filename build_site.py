@@ -19,6 +19,9 @@ CH = [
     dict(id='ch4', no='04', name='片区设计', en='场域之间', rng=(12, 16),
          chips=['2026.09', '合作项目', '西安 · 卧龙禅寺片区', '城市更新'],
          desc='从被寺墙围合的静默历史，到向城市敞开的日常公共生活：以“场域、街、雨棚、活动”四重策略重塑老城街区。'),
+    dict(id='ch5', no='05', name='驻场实践', en='Second Half 南门店', rng=(17, 19),
+         chips=['2025.10—2026.01', '耕井伫建筑工作室', '西安 · 湘子庙街', '商业空间改造'],
+         desc='三个月驻场六十余次，把现场量回的尺寸写回 CAD：从吧台放线、管线改位，到门与玻璃的收口，记录一处临街店面如何被一寸一寸落地。'),
 ]
 
 LABELS = {
@@ -26,6 +29,7 @@ LABELS = {
     4: '廊院阅垣', 5: '体量生成与剖面', 6: '各层平面',
     7: '板筑之间', 8: '设计说明', 9: '总平面与空间节点', 10: '一层平面与底层流线', 11: '图版',
     12: '场域之间', 13: '总平面与人群分析', 14: '立面 · 剖面 · 鸟瞰', 15: '场地与构件分析', 16: '植被分析',
+    17: '南门店', 18: '把现场量回图纸', 19: '六十余次进场',
 }
 TOTAL = len(pages)
 
@@ -91,10 +95,10 @@ html = f'''<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>王勇超 · 作品集 2027 | 城市设计 · 建筑</title>
-<meta name="description" content="王勇超的建筑与城市设计作品集：概念设计 The 3E Stitcher、单体设计廊院阅垣、社区设计板筑之间、片区设计场域之间。">
+<meta name="description" content="王勇超的王勇超的建筑与城市设计作品集：概念设计 The 3E Stitcher、单体设计廊院阅垣、社区设计板筑之间、片区设计场域之间、驻场实践 Second Half 南门店。">
 <meta name="theme-color" content="#F6F3ED">
 <meta property="og:title" content="王勇超 · 作品集 2027">
-<meta property="og:description" content="城市设计 · 建筑 —— 四个项目，十七页图版。">
+<meta property="og:description" content="城市设计 · 建筑 —— 五个项目，二十页图版。">
 <meta property="og:type" content="website">
 <script>document.documentElement.className+=" js";</script>
 <link rel="stylesheet" href="assets/css/site.css">
@@ -117,7 +121,7 @@ html = f'''<!DOCTYPE html>
       <div class="hero-top">
         <div class="kicker"><i></i>Architecture · Urban Design</div>
         <h1><em>Selected Works</em>王勇超</h1>
-        <p class="lede">城市设计背景，关注居住、社区与城市更新中的公共空间如何被重新组织。这里收录四个项目——从西北小镇的韧性概念，到西安老城的街区更新。</p>
+        <p class="lede">城市设计背景，关注居住、社区与城市更新中的公共空间如何被重新组织。这里收录五个项目——从西北小镇的韧性概念、西安老城的街区更新，到一处临街咖啡店三个月的驻场施工。</p>
         <p class="facts">西安建筑科技大学 · 城市设计 · GPA 3.52（前 30%）<span>2027 届 · 四个项目 · {TOTAL} 页图版</span></p>
       </div>
       <aside class="hero-side">
@@ -191,8 +195,8 @@ open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8').write(html)
 print('index.html', round(os.path.getsize(os.path.join(ROOT, 'index.html')) / 1024, 1), 'KB')
 
 # 拷贝网申版 PDF 作为下载文件
-src = next((x for x in [r'E:\Desktop\简历\作品集2\王勇超作品集.pdf',
-                        r'E:\Desktop\简历\作品集2\作品集_配色统一_网申版.pdf']
+src = next((x for x in [r'E:\Desktop\简历\王勇超-西建大-城市设计-作品集.pdf',
+                        r'E:\Desktop\简历\作品集2\王勇超作品集.pdf']
              if os.path.exists(x)), '')
 dst = os.path.join(ROOT, 'assets', PDF_FILE)
 old = os.path.join(ROOT, 'assets', 'portfolio.pdf')
@@ -206,7 +210,7 @@ if src and os.path.exists(src):
         d.set_metadata(dict(d.metadata,
             title='王勇超 - 西安建筑科技大学 城市设计 作品集 2027',
             author='王勇超',
-            subject='建筑 / 城市设计作品集 · 四个项目 十七页图版',
+            subject='建筑 / 城市设计作品集 · 五个项目 二十页图版',
             keywords='城市设计,建筑设计,作品集,2027届,西安建筑科技大学'))
         d.saveIncr()
         d.close()
