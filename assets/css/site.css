@@ -37,11 +37,11 @@ a{color:inherit;text-decoration:none}
   border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
 }
 .top.solid{border-bottom-color:var(--line);background:color-mix(in srgb,var(--paper) 94%,transparent)}
-.brand{display:flex;align-items:baseline;gap:10px;font-size:15px;letter-spacing:.08em}
+.brand{display:flex;align-items:baseline;gap:10px;font-size:15px;letter-spacing:.08em;white-space:nowrap}
 .brand b{font-weight:600}
 .brand span{color:var(--ink-45);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
 .nav{display:flex;align-items:center;gap:26px;font-size:13.5px;color:var(--ink-70)}
-.nav a{position:relative;padding:4px 0;transition:color .2s}
+.nav a{position:relative;padding:4px 0;transition:color .2s;white-space:nowrap}
 .nav a::after{
   content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--gold);
   transition:right .28s cubic-bezier(.2,.7,.3,1);
@@ -51,9 +51,13 @@ a{color:inherit;text-decoration:none}
 .nav a.on{color:var(--ink)}
 .nav .dl{
   border:1px solid var(--line);border-radius:100px;padding:7px 16px;color:var(--ink);
-  transition:border-color .25s,background .25s;
+  transition:border-color .25s,background .25s,color .25s;
 }
+.nav .dl::after{display:none}
 .nav .dl:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.nav .dl-pri{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.nav .dl-pri:hover{background:var(--gold);border-color:var(--gold);color:#fff}
+.dl-x{font-size:.82em;letter-spacing:.02em;opacity:.62;margin-left:.28em}
 .progress{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:70;width:0}
 
 /* ---------- 首屏 ---------- */
@@ -112,6 +116,26 @@ a{color:inherit;text-decoration:none}
   padding-left:22px;border-left:1px solid var(--line);
   color:var(--ink-70);letter-spacing:.06em;
 }
+/* 首屏下载 */
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin:32px 0 0}
+.cta a{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid var(--line);border-radius:100px;padding:10px 20px;
+  font-size:13px;color:var(--ink-70);letter-spacing:.06em;text-decoration:none;
+  transition:border-color .25s,color .25s,background .25s,transform .25s;
+}
+.cta a i{
+  font-style:normal;font-size:13px;line-height:1;color:var(--gold);
+  transform:translateY(-1px);transition:transform .25s,color .25s;
+}
+.cta a:hover{border-color:var(--ink);color:var(--ink);background:rgba(26,26,24,.035)}
+.cta a:hover i{transform:translateY(1px)}
+.cta a.pri{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.cta a.pri i{color:var(--paper);opacity:.75}
+.cta a.pri:hover{background:var(--gold);border-color:var(--gold);color:#fff}
+.cta a.pri:hover i{color:#fff;opacity:.9}
+.cta a small{font-size:11px;color:var(--ink-45);letter-spacing:.04em;margin-left:2px}
+.cta a.pri small{color:rgba(246,243,237,.6)}
 
 /* 简历摘要：实习 / 荣誉 / 工具 */
 .cv{
@@ -247,6 +271,9 @@ figcaption b{font-weight:400;color:var(--ink-70);letter-spacing:.1em;text-transf
   transition:border-color .25s,color .25s;
 }
 .c-item a:hover{color:var(--gold);border-color:var(--gold)}
+.c-dl{display:flex;flex-direction:column;gap:11px;align-items:flex-start}
+.c-dl a{display:inline-flex;align-items:baseline;gap:9px}
+.c-dl .sz{font-size:11.5px;color:var(--ink-45);letter-spacing:.06em;border:0;padding:0}
 .totop{font-size:12px;letter-spacing:.06em;color:var(--ink-45);transition:color .25s}
 .totop:hover{color:var(--gold)}
 
@@ -288,6 +315,12 @@ figcaption b{font-weight:400;color:var(--ink-70);letter-spacing:.1em;text-transf
 }
 
 /* ---------- 响应式 ---------- */
+@media(max-width:1180px){
+  .nav{gap:15px;font-size:12.5px}
+  .nav .dl{padding:6px 14px}
+  .brand span{display:none}
+  .nav a[href="#contact"]{display:none}
+}
 @media(max-width:1080px){
   .cards{grid-template-columns:repeat(2,1fr)}
 }
@@ -300,6 +333,14 @@ figcaption b{font-weight:400;color:var(--ink-70);letter-spacing:.1em;text-transf
   .top{height:56px}
   .nav{gap:16px;font-size:12.5px}
   .nav a:not(.dl){display:none}
+  .nav{gap:8px}
+  .nav .dl{padding:6px 13px}
+  .brand{gap:7px}
+  .brand span{display:none}
+  .dl-x{display:none}
+  .cta{margin-top:26px;gap:8px}
+  .cta a{padding:9px 15px;font-size:12px}
+  .cta a small{display:none}
   .hero{min-height:0;padding:84px 0 46px}
   .hero .wrap{justify-content:flex-start}
   .hero-bot{margin-top:28px}

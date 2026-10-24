@@ -35,6 +35,88 @@ TOTAL = len(pages)
 
 PDF_FILE = '王勇超-西建大-城市设计-作品集.pdf'      # 下载后的文件名
 PDF_HREF = 'assets/' + quote(PDF_FILE)
+CV_FILE = '王勇超-西建大-城市设计-简历.pdf'
+CV_HREF = 'assets/' + quote(CV_FILE)
+CV_SRC = r'E:\Desktop\简历\2027城市设计王勇超简历.pdf'
+
+
+def human(path):
+    if not os.path.exists(path):
+        return ''
+    n = os.path.getsize(path) / 1048576
+    return f'{n:.1f} MB'
+
+
+def sync_portfolio():
+    """从桌面取网申版作品集；只在源文件更新时覆盖"""
+    src = next((x for x in [r'E:\Desktop\简历\王勇超-西建大-城市设计-作品集.pdf',
+                            r'E:\Desktop\简历\作品集2\王勇超作品集.pdf']
+                if os.path.exists(x)), '')
+    dst = os.path.join(ROOT, 'assets', PDF_FILE)
+    if not (src and os.path.exists(src)):
+        return
+    # saveIncr 会把 dst 的 mtime 推到现在，所以用 mtime 比对新旧即可，别比大小
+    if os.path.exists(dst) and os.path.getmtime(dst) >= os.path.getmtime(src):
+        print('作品集 PDF 已是最新，跳过')
+        return
+    shutil.copy2(src, dst)
+    try:                                     # 写元数据：HR 在阅读器里看到的标题
+        import pymupdf
+        d = pymupdf.open(dst)
+        d.set_metadata(dict(d.metadata,
+            title='王勇超 - 西安建筑科技大学 城市设计 作品集 2027',
+            author='王勇超',
+            subject='建筑 / 城市设计作品集 · 五个项目 二十页图版',
+            keywords='城市设计,建筑设计,作品集,2027届,西安建筑科技大学'))
+        d.saveIncr()
+        d.close()
+    except Exception as e:
+        print('作品集 meta skip:', e)
+    print('作品集 PDF →', human(dst))
+
+
+def sync_resume():
+    """简历是 PS 导出的整页位图 PDF（5.5MB），重采样到 300dpi 单图后约 1MB"""
+    dst = os.path.join(ROOT, 'assets', CV_FILE)
+    if not os.path.exists(CV_SRC):
+        print('!! 找不到简历源文件')
+        return
+    if os.path.exists(dst) and os.path.getmtime(dst) >= os.path.getmtime(CV_SRC):
+        print('简历 PDF 已是最新，跳过')
+        return
+    import io
+    import pymupdf
+    from PIL import Image
+    d = pymupdf.open(CV_SRC)
+    p = d[0]
+    z = 2480 / p.rect.width                  # A4 @ 300dpi
+    pix = p.get_pixmap(matrix=pymupdf.Matrix(z, z), alpha=False)
+    img = Image.frombytes('RGB', (pix.width, pix.height), pix.samples)
+    buf = io.BytesIO()
+    img.save(buf, 'JPEG', quality=95, optimize=True, progressive=True)
+    nd = pymupdf.open()
+    np_ = nd.new_page(width=p.rect.width, height=p.rect.height)
+    np_.insert_image(np_.rect, stream=buf.getvalue())
+    nd.set_metadata({
+        'title': '王勇超 - 西安建筑科技大学 城市设计 简历 2027',
+        'author': '王勇超',
+        'subject': '建筑 / 城市设计 求职简历 · 2027 届',
+        'keywords': '城市设计,建筑设计,简历,2027届,西安建筑科技大学'})
+    nd.save(dst, garbage=4, deflate=True, clean=True)
+    nd.close()
+    d.close()
+    print('简历 PDF →', human(dst))
+
+
+old = os.path.join(ROOT, 'assets', 'portfolio.pdf')
+if os.path.exists(old):
+    os.remove(old)
+sync_portfolio()
+sync_resume()
+
+SIZE_PF = human(os.path.join(ROOT, 'assets', PDF_FILE))
+SIZE_CV = human(os.path.join(ROOT, 'assets', CV_FILE))
+
 
 import hashlib
 def _ver(*rel):
@@ -124,7 +206,8 @@ html = f'''<!DOCTYPE html>
   <a class="brand" href="#top"><b>王勇超</b><span>Portfolio 2027</span></a>
   <nav class="nav">
     {nav}
-    <a class="dl" href="{PDF_HREF}" download="{PDF_FILE}">下载 PDF</a>
+    <a class="dl" href="{CV_HREF}" download="{CV_FILE}">简历</a>
+    <a class="dl dl-pri" href="{PDF_HREF}" download="{PDF_FILE}">作品集<span class="dl-x"> PDF</span></a>
   </nav>
 </header>
 
@@ -143,6 +226,10 @@ html = f'''<!DOCTYPE html>
         </dl>
         <p class="lede">城市设计背景，关注居住、社区与城市更新中的公共空间如何被重新组织。这里收录五个项目——从西北小镇的韧性概念、西安老城的街区更新，到一处临街咖啡店三个月的驻场施工。</p>
         <p class="facts">GPA 3.52（专业前 30%）<span>五个项目 · {TOTAL} 页图版</span></p>
+        <div class="cta">
+          <a class="pri" href="{PDF_HREF}" download="{PDF_FILE}"><i>&darr;</i>下载作品集 PDF<small>{SIZE_PF}</small></a>
+          <a href="{CV_HREF}" download="{CV_FILE}"><i>&darr;</i>下载简历 PDF<small>{SIZE_CV}</small></a>
+        </div>
       </div>
       <aside class="hero-side">
         <dl class="cv">
@@ -191,8 +278,11 @@ html = f'''<!DOCTYPE html>
         <a href="tel:+8618829169388">188 2916 9388</a>
       </div>
       <div class="c-item">
-        <span class="c-lb">Portfolio</span>
-        <a href="{PDF_HREF}" download="{PDF_FILE}">下载完整 PDF · {TOTAL} 页</a>
+        <span class="c-lb">Download</span>
+        <div class="c-dl">
+          <a href="{PDF_HREF}" download="{PDF_FILE}">作品集 PDF · {TOTAL} 页<span class="sz">{SIZE_PF}</span></a>
+          <a href="{CV_HREF}" download="{CV_FILE}">简历 PDF · 1 页<span class="sz">{SIZE_CV}</span></a>
+        </div>
       </div>
       <div class="c-item c-qr">
         <span class="c-lb">Scan</span>
@@ -213,33 +303,4 @@ html = f'''<!DOCTYPE html>
 
 open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8').write(html)
 print('index.html', round(os.path.getsize(os.path.join(ROOT, 'index.html')) / 1024, 1), 'KB')
-
-# 拷贝网申版 PDF 作为下载文件
-src = next((x for x in [r'E:\Desktop\简历\王勇超-西建大-城市设计-作品集.pdf',
-                        r'E:\Desktop\简历\作品集2\王勇超作品集.pdf']
-             if os.path.exists(x)), '')
-dst = os.path.join(ROOT, 'assets', PDF_FILE)
-old = os.path.join(ROOT, 'assets', 'portfolio.pdf')
-if os.path.exists(old):
-    os.remove(old)
-# 只在源文件比目标新时才复制：saveIncr 会改到目标大小，用大小比对会死循环
-same = (src and os.path.exists(src) and os.path.exists(dst)
-        and os.path.getmtime(dst) >= os.path.getmtime(src))
-if same:
-    print('pdf 已是最新，跳过复制')
-if src and os.path.exists(src) and not same:
-    shutil.copy2(src, dst)
-    try:                                     # 写元数据：HR 在阅读器里看到的标题
-        import pymupdf
-        d = pymupdf.open(dst)
-        d.set_metadata(dict(d.metadata,
-            title='王勇超 - 西安建筑科技大学 城市设计 作品集 2027',
-            author='王勇超',
-            subject='建筑 / 城市设计作品集 · 五个项目 二十页图版',
-            keywords='城市设计,建筑设计,作品集,2027届,西安建筑科技大学'))
-        d.saveIncr()
-        d.close()
-    except Exception as e:
-        print('meta skip:', e)
-if os.path.exists(dst):
-    print('pdf', round(os.path.getsize(dst) / 1048576, 1), 'MB')
+print("downloads:", PDF_FILE, SIZE_PF, "|", CV_FILE, SIZE_CV)
