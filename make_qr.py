@@ -92,18 +92,22 @@ def main():
     f_sub = font(MSYH, 40)
     d.text((x0, 396), '城市设计 · 建筑', font=f_sub, fill=(74, 72, 68))
 
+    # 基本信息：与网站首屏口径一致
+    f_tag = font(MSYH, 27)
+    d.text((x0, 470), '男 · 22 岁 · INTJ　｜　西安建筑科技大学 · 2027 届', font=f_tag, fill=MUTED)
+
     # 金色短线
-    d.line([x0, 490, x0 + 96, 490], fill=GOLD, width=3)
+    d.line([x0, 528, x0 + 96, 528], fill=GOLD, width=3)
 
     f_body = font(MSYH, 31)
-    d.text((x0, 528), '四个项目 · 十七页图版', font=f_body, fill=MUTED)
-    d.text((x0, 580), '概念设计 / 单体设计 / 社区设计 / 片区设计', font=f_body, fill=MUTED)
+    d.text((x0, 564), '五个项目 · 二十页图版', font=f_body, fill=INK)
+    d.text((x0, 618), '概念设计 / 单体设计 / 社区设计 / 片区设计 / 驻场实践', font=f_body, fill=MUTED)
 
     # URL
     f_url = font(GEORGIA, 34)
-    d.text((x0, 690), 'nefelibata857.github.io', font=f_url, fill=GOLD_SOFT)
+    d.text((x0, 730), 'nefelibata857.github.io', font=f_url, fill=GOLD_SOFT)
     f_tip = font(MSYH, 24)
-    tracked(d, (x0, 748), 'SCAN TO OPEN', f_tip, MUTED, tracking=6)
+    tracked(d, (x0, 788), 'SCAN TO OPEN', f_tip, MUTED, tracking=6)
 
     # 右下角小字
     f_foot = font(MSYH, 24)

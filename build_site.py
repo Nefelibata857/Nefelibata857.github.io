@@ -36,6 +36,19 @@ TOTAL = len(pages)
 PDF_FILE = '王勇超-西建大-城市设计-作品集.pdf'      # 下载后的文件名
 PDF_HREF = 'assets/' + quote(PDF_FILE)
 
+import hashlib
+def _ver(*rel):
+    h = hashlib.md5()
+    for r in rel:
+        fp = os.path.join(ROOT, r)
+        if os.path.exists(fp):
+            h.update(open(fp, 'rb').read())
+    return h.hexdigest()[:8]
+
+CSS_VER = _ver('assets/css/site.css')
+JS_VER = _ver('assets/js/site.js')
+
+
 def esc(s):
     return (s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;'))
 
@@ -101,7 +114,7 @@ html = f'''<!DOCTYPE html>
 <meta property="og:description" content="城市设计 · 建筑 —— 五个项目，二十页图版。">
 <meta property="og:type" content="website">
 <script>document.documentElement.className+=" js";</script>
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/site.css?v={CSS_VER}">
 <link rel="preload" as="image" href="assets/pages/p00.webp">
 </head>
 <body>
@@ -193,7 +206,7 @@ html = f'''<!DOCTYPE html>
   </div>
 </footer>
 
-<script src="assets/js/site.js"></script>
+<script src="assets/js/site.js?v={JS_VER}"></script>
 </body>
 </html>
 '''
